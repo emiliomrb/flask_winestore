@@ -1,0 +1,15 @@
+modelos
+
+
+--clientes
+--ventas
+--compras
+--productos
+--stock
+
+
+sotck del producto
+pedidos
+ventas
+s. financiera
+gestion de clientes

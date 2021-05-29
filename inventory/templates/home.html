@@ -1,0 +1,90 @@
+<h1>
+    Please enter your venta
+
+</h1>
+
+<form id="form-submit" method="POST">
+    {{ form.hidden_tag() }}
+    {{ form.client_id.label }}{{ form.client_id() }}
+    {{form.wine_id.label}}{{ form.wine_id() }}
+    {{ form.quantity.label }} {{ form.quantity() }}
+    {{ form.total.label }} {{form.total()}}
+    {{form.pay_method.label}} {{ form.pay_method() }}
+    {{ form.payment_status.label }} {{form.payment_status()}}
+    <input type="submit" id="form-submit" name="form-submit" value="Submit form">
+</form>
+
+
+<h1>
+    Please enter your neu compra
+
+</h1>
+
+<form id="form-submit3" method="POST">
+    {{ newbuy.hidden_tag() }}
+    {{ newbuy.wine_id_b.label }}{{ newbuy.wine_id_b() }}
+    {{  newbuy.proveedor.label  }}{{ newbuy.proveedor() }}
+    {{ newbuy.quantity_b.label }} {{ newbuy.quantity_b() }}
+    <input type="submit" id="form-submit3" name="form-submit3" value="Submit form">
+</form>
+
+<h1>
+    Please enter your neu cliente
+</h1>
+
+<form id="form-submit4" method="POST">
+    {{ newcli.hidden_tag() }}
+    {{ newcli.name.label }}{{ newcli.name() }}
+    {{ newcli.address.label }}{{ newcli.address() }}
+    {{ newcli.phone.label }} {{ newcli.phone() }}
+    <input type="submit" id="form-submit4" name="form-submit4" value="Submit form">
+</form>
+
+
+
+  <table class="table table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Varietal</th>
+        <th scope="col">Bodega</th>
+        <th scope="col">Stock</th>
+      </tr>
+    </thead>
+    <tbody>
+  
+        {% for w, wh in inventory_join %}
+            <tr>
+                <td>{{ w.id}}</td>
+                <td>{{ w.name }}</td> 
+                <td>{{ w.varietal }}</td> 
+                <td>{{ w.bodega }}</td> 
+                <td>{{ wh.quantity }}</td> 
+            
+            </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+
+  <!DOCTYPE html>
+<htmls>
+  <head>
+    <style>html{visibility: hidden;opacity:0;}</style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+
+    <title>Inventory site</title>
+
+  <h1>Products</h1>
+<div >
+  <h3 style="display: inline-block;margin:0;"> Manage products in your central Warehouse</h3>
+  <button type="button" class="btn btn-add" data-toggle="modal" data-target="#exampleModal">
+   <span class="btn-icon-add"><i class="glyphicon glyphicon-plus"></i></span>Add Product</button>
+</div>

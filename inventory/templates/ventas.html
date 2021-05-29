@@ -1,0 +1,162 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="container">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+     {%if messages %}
+          {%for category, message in messages %}
+            <div class="alert alert-{{ category }}">
+               <h4 style="text-align:center;">{{ message }}</h4>
+            </div>
+          {%endfor%}
+    {%endif %}
+  {%endwith%}
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<div class="container">
+
+<h1>Ventas</h1>
+<div >
+  <h3 style="display: inline-block;margin:0;"> Ventas</h3>
+  <button type="button" class="btn btn-add" data-toggle="modal" data-target="#exampleModal">
+   <span class="btn-icon-add"><i class="glyphicon glyphicon-plus"></i></span>Nueva Venta</button>
+</div>
+
+<!-- add Modal code-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="margin-top:150px;">
+  <div class="modal-dialog" role="document">
+
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel">Add Product</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div id="modal-cont" class="modal-body" data-toggle="fieldset" >
+        <form  action="" method="POST" id="products">
+          
+          
+          <div class="form-group row">
+            <div class= "col-md-3">
+              {{ saleform.csrf_token() }}
+              {{saleform.client_id.label(class="form-control-label" )}}
+              {{ saleform.client_id(class="form-control form-control-lg", id="client_id") }}
+            </div>
+            <div class= "col-md-8">
+              {{ saleform.name.label(class="form-control-label")}} 
+              {{saleform.name(class="form-control form-control-lg", id="client_name")}}
+            </div>
+          </div>
+          <div>
+            {{saleform.address.label(class="form-control-label")}}
+            {{saleform.address(class="form-control form-control-lg", id="address")}}
+          </div>
+          
+          <div class="prodname">
+          
+          <table>
+            <tbody id= "InputsWrapper" name="InputsWrapper" >
+              <tr>
+                <th>Wine ID</th>
+                <th>Cantidad</th>
+              </tr>
+              <tr data-toggle="fieldset-entry" name ='wine1'>
+                <td name='wine1' id='wine1'>{{addwine.wine(class="form-control form-control-lg")}}</td>
+                <td name= "qty1">{{addwine.quantity(class="form-control form-control-lg")}}</td>
+     
+                <td><button type="button" name="AddField" id="AddField"data-toggle="fieldset-add-row" data-target="#phone-fieldset">+</button></td>
+
+              </tr>
+            </tbody>
+          </table>
+
+          </div>   
+
+          <div>
+            {{ saleform.total.label(class="form-control-label" )}}
+            {{saleform.total(class="form-control form-control-lg")}}
+          </div>
+          <div>
+            {{ saleform.pay_method.label(class="form-control-label" )}}
+            {{saleform.pay_method(class="form-control form-control-lg")}}
+          </div>
+          <div>
+            {{ saleform.payment_status.label(class="form-control-label" )}}
+            {{saleform.payment_status(class="form-control form-control-lg", id="nombre")}}
+          </div>
+          
+
+          </div>
+
+          <script src="{{url_for('static', filename='page1.js')}}"></script>
+          <script>
+          $(document).ready(function(){
+            var InputsWrapper = $("#InputsWrapper");
+            var AddButton = $("#AddField");
+        
+        
+            $(AddButton).click(function(){
+        
+                    $(InputsWrapper).append('<tr data-toggle="fieldset-entry"><td>{{addwine.wine(class="form-control form-control-lg")}}</td><td>{{addwine.quantity(class="form-control form-control-lg")}}</td><td><button type= button class= "btn btn-success" type="button" name="AddField" id="AddField">+</button></td><td><button class="btn btn-danger removeclass">-</button></td</tr>')
+                });
+          });
+          $("body").on("click",".removeclass", function(e){ //user click on remove text
+                      $(this).closest('tr').remove(); //remove text box
+            });
+        
+        </script>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <div >
+              {{ saleform.submit(class="btn btn-primary")}}
+            </div>
+          </div>
+        </form>
+      </div>
+    
+   </div>
+ </div>
+
+</div>
+<!--end of modal design-->
+
+<table class="table table-hover">
+<thead>
+ <tr>
+   <th>ID</th>
+   <th>Product Name</th>
+   <th>Unallocated Quantity</th>
+   <th></th>
+   <th></th>
+ </tr>
+</thead>
+<tbody>
+  {% for d in ventas %}
+  <tr>
+   <td>{{d.client_id}}</td>
+   <td>{{d.wine_id}}</td>
+   <td>{{d.quantity}}</td>
+   <td>{{d.amount}}</td>
+   <td>{{d.pay_method}}</td>
+   <td>{{d.payment_status}}</td>
+   <td>
+       <button type="button" class="btn btn-edit" data-toggle="modal" data-target = "#edit{{d.id}}" >
+       <span class="btn-icon"><i class="glyphicon glyphicon-pencil"></i></span>Edit</button>
+
+  
+   <td>
+    
+       <button type="button" class="btn btn-delete">
+       <span class="btn-icon"><i class="glyphicon glyphicon-trash"></i></span>Delete</button></a>
+   </td>
+ </tr>
+{%endfor%}
+</tbody>
+
+</table>
+
+{% endblock content %}
+
+

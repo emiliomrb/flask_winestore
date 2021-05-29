@@ -1,0 +1,45 @@
+<h1>
+    Please enter your promo
+
+</h1>
+
+<form id="form-submit2" method="POST">
+    {{ newpack.hidden_tag() }}
+    {{ newpack.name.label }}{{ newpack.name() }}
+    
+    {{ newpack.price.label }} {{newpack.price()}}
+    {{newpack.status.label}} {{ newpack.status() }}
+    {{newpack.wine_p.label}}{{ newpack.wine_p() }}
+  
+    <input type="submit" id="form-submit2" name="form-submit2" value="Submit form">
+</form>
+<form id="form-submit7" method="POST">
+    {{ addwinetopack.hidden_tag() }}
+    {{addwinetopack.wine_id_p.label}}{{ addwinetopack.wine_id_p() }}
+    {{ addwinetopack.quantity_p.label }} {{ addwinetopack.quantity_p() }}
+
+    <input type="submit" id="form-submit7" name="form-submit7" value="Submit form">
+</form>
+
+
+<p>
+    Promos
+</p>
+
+<table>
+    <thead >
+        <th>Promo ID</th>
+        <th>Nombre</th>
+        <th>Vinos</th>
+        <th>Cantidad</th>
+  
+    </thead>
+    {% for w in promos %}
+    <tr>
+        <td>{{ w.id}}</td>
+        <td>{{ w.name }}</td> 
+        <td>{{ w.wine_id_p }}</td> 
+        <td>{{ w.quantity_p }}</td>
+    </tr>
+    {% endfor %}
+</table>

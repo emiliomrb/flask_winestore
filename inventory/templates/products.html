@@ -1,0 +1,163 @@
+<h1>
+    Please enter your neu wine
+
+</h1>
+
+<form id="form-submit1" method="POST">
+    {{ newWine.hidden_tag() }}
+    {{ newWine.wine_name.label }}{{ newWine.wine_name() }}
+    {{newWine.varietal.label}}{{ newWine.varietal() }}
+    {{ newWine.bodega.label }} {{ newWine.bodega() }}
+    <input type="submit" id="form-submit1" name="form-submit1" value="Submit form">
+</form>
+
+<table>
+    <thead >
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Varietal</th>
+        <th>Bodega</th>
+        <th>Stock</th>
+  
+    </thead>
+    {% for w,i in inventory_join %}
+    <tr>
+        <td>{{ w.id}}</td>
+        <td>{{ w.name }}</td> 
+        <td>{{ w.varietal }}</td> 
+        <td>{{ w.bodega }}</td>
+        <td>{{ i.quantity }}</td> 
+    </tr>
+    {% endfor %}
+</table>
+
+
+<p>
+    Promos
+</p>
+
+<table>
+    <thead >
+        <th>Promo ID</th>
+        <th>Nombre</th>
+        <th>Vinos</th>
+        <th>Cantidad</th>
+  
+    </thead>
+    {% for w in promos %}
+    <tr>
+        <td>{{ w.id}}</td>
+        <td>{{ w.name }}</td> 
+        <td>{{ w.wine_id_p }}</td> 
+        <td>{{ w.quantity_p }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<form action="/addpack" name="addpromo" id="addpromo">
+    <input type="submit" value="Add Promo" />
+</form>
+<!DOCTYPE html>
+<htmls>
+  <head>
+    <style>html{visibility: hidden;opacity:0;}</style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+
+    <title>Inventory site</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+        <div class="container">
+          <a class="Main" href="/Overview">Inventory</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarToggle">
+            <div class="navbar-nav mr-auto">
+              <!--<a class="nav-item nav-link" href="/">Home</a>
+              <a class="nav-item nav-link" href="/about">About</a>-->
+            </div>
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav">
+              <a class="nav-item nav-link" href="/">Overview</a>
+              <a class="nav-item nav-link" href="/Product">Products</a>
+              <a class="nav-item nav-link" href="/Location">Location</a>
+              <a class="nav-item nav-link" href="/Transfers">Transfers</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+</header>
+<main role="main" class="container-content">
+    <div class="row">
+      <div class="col-md-8">
+        {% block content %}
+
+        <h1>Overview</h1>
+        <div >
+          <h3 style="display: inline-block;margin-bottom:15px;"> View allocated items in each warehouse</h3>
+        <table class="table table-hover">
+        <thead>
+         <tr>
+           <th>ID</th>
+           <th></th>
+           <th>Product</th>
+           <th></th>
+           <th>Warehouse</th>
+           <th></th>
+           <th>Quantity</th>
+         </tr>
+        </thead>
+        <tbody>
+
+        {%for b in promos%}
+         <tr>
+           <td>{{b.id}}</td>
+           <td></td>
+           <td>{{b.name}}</td>
+           <td></td>
+           <td>{{b.wine_id}}</td>
+           <td></td>
+           <td>{{b.quantity_p}}</td>
+         </tr>
+
+        {% endfor %}
+
+        </table>
+      </div>
+      <div class="container" style="margin-top:15px;">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+           {%if messages %}
+                {%for  category,message in messages %}
+                  <div class="alert alert-{{category}}">
+                     <h4 style="text-align:center;">{{ message }}</h4>
+                  </div>
+                {%endfor%}
+          {%endif %}
+        {%endwith%}
+      </div>
+      </table>
+
+    </div>
+        </tbody>
+
+        {% endblock %}
+     </div>
+  </div>
+</main>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+</body>
+</html>
